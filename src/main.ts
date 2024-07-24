@@ -142,7 +142,7 @@ class Memorization {
 		this.app = app;
 	}
 
-	async createNewFile(originalTitle: string, originalPath: string, folder: TFolder, headings: HeadingCache[]): Promise<TFile> {
+	async createNewFile(originalTitle: string, originalPath: string, folder: TFolder, headings: HeadingCache[]) {
 		const pathList: string[] = originalPath.split("/");
 		const titleIdx = pathList.length - 1;
 
