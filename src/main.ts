@@ -17,14 +17,79 @@ export default class MyPlugin extends Plugin {
 		// await this.loadSettings();
 
 		this.addCommand({
-			id: 'create-memorization-note',
-			name: 'Create Memorization Note',
+			id: 'create-memorization-note-headind',
+			name: 'Create Memorization Note (Heading)',
 			callback: async () => {
 				try {
 					const original = new Original(this.app);
 					const memorization = new Memorization(this.app);
-					// @ts-ignore
-					memorization.createNewFile(original.file.basename, original.file.path, original.file.parent, original.getFileHeading())
+					if (original.file && original.file.path) {
+						const originalContent = await this.app.vault.read(original.file);
+						// @ts-ignore
+						await memorization.createNewFile(original.file.basename, original.file.path, original.file.parent, original.getFileHeading(), originalContent, "heading");
+					} else {
+						throw new Error("No active markdown file is open or file path is null.");
+					}
+				} catch (error) {
+					new Notice(error.message);
+				}
+			}
+		});
+
+		this.addCommand({
+			id: 'create-memorization-note-link-headind',
+			name: 'Create Memorization Note (Link Heading)',
+			callback: async () => {
+				try {
+					const original = new Original(this.app);
+					const memorization = new Memorization(this.app);
+					if (original.file && original.file.path) {
+						const originalContent = await this.app.vault.read(original.file);
+						// @ts-ignore
+						await memorization.createNewFile(original.file.basename, original.file.path, original.file.parent, original.getFileHeading(), originalContent, "link");
+					} else {
+						throw new Error("No active markdown file is open or file path is null.");
+					}
+				} catch (error) {
+					new Notice(error.message);
+				}
+			}
+		});
+
+		this.addCommand({
+			id: 'create-memorization-note-blank',
+			name: 'Create Memorization Note (blank)',
+			callback: async () => {
+				try {
+					const original = new Original(this.app);
+					const memorization = new Memorization(this.app);
+					if (original.file && original.file.path) {
+						const originalContent = await this.app.vault.read(original.file);
+						// @ts-ignore
+						await memorization.createNewFile(original.file.basename, original.file.path, original.file.parent, original.getFileHeading(), originalContent, "blank");
+					} else {
+						throw new Error("No active markdown file is open or file path is null.");
+					}
+				} catch (error) {
+					new Notice(error.message);
+				}
+			}
+		});
+
+		this.addCommand({
+			id: 'create-memorization-note-copy',
+			name: 'Create Memorization Note (copy)',
+			callback: async () => {
+				try {
+					const original = new Original(this.app);
+					const memorization = new Memorization(this.app);
+					if (original.file && original.file.path) {
+						const originalContent = await this.app.vault.read(original.file);
+						// @ts-ignore
+						await memorization.createNewFile(original.file.basename, original.file.path, original.file.parent, original.getFileHeading(), originalContent, "copy");
+					} else {
+						throw new Error("No active markdown file is open or file path is null.");
+					}
 				} catch (error) {
 					new Notice(error.message);
 				}
@@ -142,10 +207,64 @@ class Memorization {
 		this.app = app;
 	}
 
-	async createNewFile(originalTitle: string, originalPath: string, folder: TFolder, headings: HeadingCache[]) {
+	async createNewFile(originalTitle: string, originalPath: string, folder: TFolder, headings: HeadingCache[], content: string, mode: string) {
 		const pathList: string[] = originalPath.split("/");
 		const titleIdx = pathList.length - 1;
+		const newTitle = this.setTitle(pathList, originalTitle, folder);
+		pathList[titleIdx] = newTitle + ".md";
 
+		const newPath = pathList.join("/");
+
+		let newContent = "";
+		if (mode == "heading" || mode == "link") {
+			newContent = this.setHeadingContent(mode, headings, originalPath);
+		}
+		if (mode == "blank" || mode == "copy") {
+			newContent = this.setContent(mode, content);
+		}
+
+		try {
+			const newFile = await this.app.vault.create(newPath, newContent);
+			this.openFile(newFile);
+			return newFile;
+		} catch (error) {
+			new Notice("Failed to create new file:", error)
+		}
+	}
+
+	async openFile(file: TFile) {
+		const leaf = this.app.workspace.getLeaf("tab");
+		await leaf.openFile(file);
+	}
+
+	private setHeadingContent(mode: string, headings: HeadingCache[], path: string) {
+		let newContent = "";
+
+		if (mode === "heading") {
+			for (const h of headings) {
+				newContent += this.setHeading(h);
+			}
+			return newContent;
+		}
+
+		if (mode === "link") {
+			for (const h of headings) {
+				newContent += this.setLinkHeading(h, path);
+			}
+			return newContent;
+		}
+
+		return newContent;
+	}
+
+	private setContent(mode: string, content: string) {
+		if (mode === "blank") {
+			return content.replaceAll(/\*\*([^\n]+)(\*\*|\n)/g, "(   )");
+		}
+		return content;
+	}
+
+	private setTitle(pathList: string[], originalTitle: string, folder: TFolder) {
 		const newTitle = originalTitle + "_mem ";
 		let num = 1;
 		for (const f of folder.children) {
@@ -157,34 +276,19 @@ class Memorization {
 				}
 			}
 		}
-
-		pathList[titleIdx] = newTitle + num + ".md";
-		const newPath= pathList.join("/");
-
-		let content = "";
-		let prefix;
-		let head;
-		for (const h of headings) {
-			prefix = "#".repeat(h.level);
-			head = `[[${originalPath}#${h.heading}|${h.heading}]]`;
-			content += `${prefix} ${head}\n\n`;
-		}
-		try {
-			const newFile = await this.app.vault.create(newPath, content);
-
-			this.openFile(newFile);
-
-			return newFile;
-		}
-		catch (error) {
-			new Notice("Failed to create new file:", error)
-		}
+		return newTitle + " " + num;
 	}
 
-	async openFile(file: TFile) {
-		const leaf = this.app.workspace.getLeaf("tab");
-		await leaf.openFile(file);
+	private setHeading(heading: HeadingCache): string {
+		const prefix = "#".repeat(heading.level);
+		const text = heading.heading;
+		return `${prefix} ${text}\n\n`;
 	}
 
+	private setLinkHeading(heading: HeadingCache, path: string): string {
+		const prefix = "#".repeat(heading.level);
+		const text = `[[${path}#${heading.heading}|${heading.heading}]]`;
+		return `${prefix} ${text}\n\n`;
+	}
 }
 
