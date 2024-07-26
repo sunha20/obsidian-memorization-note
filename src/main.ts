@@ -259,7 +259,7 @@ class Memorization {
 
 	private setContent(mode: string, content: string) {
 		if (mode === "blank") {
-			return content.replaceAll(/\*\*([^\n]+)(\*\*|)/g, "(   )");
+			return content.replaceAll(/\*\*([^\n]+)(\*\*)/g, "(   )");
 		}
 		return content;
 	}
