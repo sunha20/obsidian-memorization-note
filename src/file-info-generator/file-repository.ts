@@ -28,15 +28,15 @@ export class FileRepository {
 	}
 
 
-	getAllHeading(mode: string) {
+	getAllHeading(option: string) {
 		let headingString = "";
-		if (mode == "basic") {
+		if (option == "basic") {
 			for (let i = 0; i < this.headingLen; i++) {
 				headingString += this.heading.getOneHeading() + "\n";
 			}
 			return headingString;
 		}
-		if (mode == "link") {
+		if (option == "link") {
 			for (let i = 0; i < this.headingLen; i++) {
 				headingString += this.heading.getOneLinkHeading() + "\n";
 			}

@@ -5,17 +5,17 @@ import {Notice} from "obsidian";
 export class MemFileGenerator {
 	obsidian: ObsidianControl
 	file: FileRepository
-	hMode: string;
-	cMode: string;
+	hOption: string;
+	cOption: string;
 	headingReg = /^#+\s/;
 	blankReg: RegExp;
 	blankMark: string[]
 
-	constructor(obsidian: ObsidianControl, file: FileRepository, mode: string[], blankMark: string[]) {
+	constructor(obsidian: ObsidianControl, file: FileRepository, option: string[], blankMark: string[]) {
 		this.obsidian = obsidian;
 		this.file = file;
-		this.hMode = mode[0];
-		this.cMode = mode[1];
+		this.hOption = option[0];
+		this.cOption = option[1];
 		this.blankMark = blankMark;
 		this.blankReg = this.getContentReg(blankMark);
 	}
@@ -24,22 +24,22 @@ export class MemFileGenerator {
 		let memContents = "";
 		const memPath = this.setMemPath()
 
-		if (this.cMode == "empty") {
-			memContents = this.file.getAllHeading(this.hMode);
+		if (this.cOption == "empty") {
+			memContents = this.file.getAllHeading(this.hOption);
 		}
 
-		if (this.cMode == "blank") {
+		if (this.cOption == "blank") {
 			if (this.blankMark[0] == this.blankMark[1]) {
 				new Notice("Not allowing start and end marks to be the same");
 				return;
 			}
 			memContents = this.setBlankContents();
-			if (this.hMode == "link") memContents = this.setHeadingToLink(memContents);
+			if (this.hOption == "link") memContents = this.setHeadingToLink(memContents);
 		}
 
-		if (this.cMode == "copy") {
+		if (this.cOption == "copy") {
 			memContents = this.file.contents;
-			if (this.hMode == "link") memContents = this.setHeadingToLink(memContents);
+			if (this.hOption == "link") memContents = this.setHeadingToLink(memContents);
 		}
 
 		this.obsidian.openFile(memPath, memContents);
@@ -76,7 +76,7 @@ export class MemFileGenerator {
 	private setHeadingToLink(memContents: string) {
 		const contentsList = memContents.split('\n');
 		for (let i = 0; i < contentsList.length; i++) {
-			if (this.hMode == "link" && this.headingReg.test(contentsList[i])) {
+			if (this.hOption == "link" && this.headingReg.test(contentsList[i])) {
 				const text = contentsList[i].replaceAll(/#+\s/g,"");
 				contentsList[i] = this.file.heading.getOneLinkHeading(text);
 			}

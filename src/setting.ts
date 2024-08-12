@@ -2,15 +2,15 @@ import {App, PluginSettingTab, Setting} from "obsidian";
 import MemorizationNote from "./main";
 
 export interface MemorizationNoteSettings {
-	headingMode: "basic" | "link";
-	contentsMode: "empty" | "blank" | "copy";
+	headingOption: "basic" | "link";
+	contentsOption: "empty" | "blank" | "copy";
 	blankStart: string;
 	blankEnd: string;
 }
 
 export const DEFAULT_SETTINGS: MemorizationNoteSettings = {
-	headingMode: "basic",
-	contentsMode: "empty",
+	headingOption: "basic",
+	contentsOption: "empty",
 	blankStart: "{",
 	blankEnd: "}",
 }
@@ -29,26 +29,26 @@ export class MemorizationNoteSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		new Setting(containerEl)
-			.setName('Heading Mode')
-			.setDesc("Basic: Mode that copies the normal headings from the original note.\nLink: Mode that adds a link to the original note's corresponding heading to the normal heading.")
+			.setName('Heading Option')
+			.setDesc("Basic: Option that copies the normal headings from the original note.\nLink: Option that adds a link to the original note's corresponding heading to the normal heading.")
 			.addDropdown((component) => {
 				component
 					.addOptions({
 						"basic": "basic",
 						"link": "link",
 					})
-					.setValue(String(this.plugin.settings.headingMode))
+					.setValue(String(this.plugin.settings.headingOption))
 					.onChange(async (value) => {
 						if (value == "link" || value == "basic") {
-							this.plugin.settings.headingMode = value;
+							this.plugin.settings.headingOption = value;
 							await this.plugin.saveSettings();
 						}
 					})
 			})
 
 		new Setting(containerEl)
-			.setName('Contents Mode')
-			.setDesc("Empty: Mode that does not copy anything except the heading.\nBlank: Mode that blanks the marked areas.\nCopy: Duplicate mode")
+			.setName('Contents Option')
+			.setDesc("Empty: Option that does not copy anything except the heading.\nBlank: Option that blanks the marked areas.\nCopy: Duplicate option")
 			.addDropdown((component) => {
 				component
 					.addOptions({
@@ -56,10 +56,10 @@ export class MemorizationNoteSettingTab extends PluginSettingTab {
 						"blank": "blank",
 						"copy": "copy",
 					})
-					.setValue(String(this.plugin.settings.contentsMode))
+					.setValue(String(this.plugin.settings.contentsOption))
 					.onChange(async (value) => {
 						if (value == "empty" || value == "blank" || value == "copy") {
-							this.plugin.settings.contentsMode = value;
+							this.plugin.settings.contentsOption = value;
 							await this.plugin.saveSettings();
 						}
 						console.log(value)

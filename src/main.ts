@@ -20,7 +20,7 @@ export default class MemorizationNote extends Plugin {
 					const obsidian = new ObsidianControl(this.app);
 					const originalFile = new FileRepository(obsidian);
 					await originalFile.init(obsidian.getActiveFile());
-					const memNote = new MemFileGenerator(obsidian, originalFile, [this.settings.headingMode, this.settings.contentsMode], [this.settings.blankStart, this.settings.blankEnd]);
+					const memNote = new MemFileGenerator(obsidian, originalFile, [this.settings.headingOption, this.settings.contentsOption], [this.settings.blankStart, this.settings.blankEnd]);
 					memNote.createMemFile();
 				} catch (error) {
 					new Notice(error.message);
