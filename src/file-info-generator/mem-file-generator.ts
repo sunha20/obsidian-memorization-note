@@ -98,7 +98,7 @@ export class MemFileGenerator {
 		for (let i = 0; i < contents.length; i++) {
 			if (contents[i] == this.blankMark[1] && flag) { // blank end
 				flag = false;
-				contents[i] = `[^${footNoteIdx}]${this.blankMark[1]}`;
+				contents[i] = `|[^${footNoteIdx}]${this.blankMark[1]}`;
 				footNoteContents += "\n";
 				footNoteIdx += 1;
 				continue;
@@ -115,7 +115,7 @@ export class MemFileGenerator {
 					footNoteContents += "/";
 				} else {
 					footNoteContents += contents[i];
-					contents[i] = " ";
+					contents[i] = "  ";
 				}
 			}
 		}
