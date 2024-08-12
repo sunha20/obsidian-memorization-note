@@ -1,3 +1,18 @@
-You can create a new note that contains only the heading of the original note.
-Notes created with this plugin are named in the form “(original name)_mem (number)”. (ex,. computer architecture_mem 1)
-The heading in the new note is in LINK format, which acts as navigation to the original location.
+# Overview
+This plugin is designed for the automatic creation of memorization notes. It allows you to generate new notes with various options.
+
+Default Information for New Notes
+The title of the new note will be created in the format "(Original Title)_mem (Number)". The location of the new note will be in the same folder as the original note.
+
+# Options
+There are two main types of options: Heading Options and Contents Options.
+
+- Heading Options
+  - Basic: The original heading is copied as is.
+  - Link: A link icon is added next to the heading. This icon links to the corresponding heading in the original note.
+
+- Contents Options
+  - Empty: A new note is created with all content removed except for the heading.
+  - Blank: A new note is created with placeholders where the user has marked. The start and end markers for the blank areas can be specified in the settings, and the two markers should not be identical.
+  - Copy: The content of the original note is copied exactly as it is.
+  If you have any additional content you'd like translated or have further questions, feel free to ask!
