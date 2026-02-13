@@ -14,7 +14,7 @@ export default class MemorizationNote extends Plugin {
 
 		this.addCommand({
 			id: 'create-mem-note',
-			name: 'Create Memorization Note',
+			name: 'Create Mem Note',
 			callback: async () => {
 				try {
 					const obsidian = new ObsidianControl(this.app);
