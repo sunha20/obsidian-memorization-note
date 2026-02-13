@@ -3,7 +3,7 @@
 	"name": "Memorization Note",
 	"version": "1.0.0",
 	"minAppVersion": "0.0.0",
-	"description": "Duplicate the note for memorization",
+	"description": "Duplicate the note for memorization.",
 	"author": "sunha20",
 	"authorUrl": "https://github.com/sunha20/obsidian-memorization-note",
 	"isDesktopOnly": false
