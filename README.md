@@ -16,3 +16,8 @@ There are two main types of options: Heading Options and Contents Options.
   - Blank: A new note is created with placeholders where the user has marked. The start and end markers for the blank areas can be specified in the settings, and the two markers should not be identical.
   - Copy: The content of the original note is copied exactly as it is.
   If you have any additional content you'd like translated or have further questions, feel free to ask!
+
+# Recommend
+- Link Heading & Empty contents: You can study by filling in the content yourself based on the headings. If you use link headings, you can easily check the answers via the preview feature."
+- Blank contents: You can study by filling in custom blanks that you’ve created yourself.
+- Copy contents: Simply clone or replicate the entire content.
