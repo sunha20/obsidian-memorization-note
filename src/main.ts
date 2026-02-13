@@ -13,7 +13,7 @@ export default class MemorizationNote extends Plugin {
 		await this.loadSettings();
 
 		this.addCommand({
-			id: 'create-memorization-note-headind',
+			id: 'create-memorization-note-heading',
 			name: 'Create Memorization Note',
 			callback: async () => {
 				try {
