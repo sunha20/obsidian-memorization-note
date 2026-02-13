@@ -24,7 +24,7 @@ export default class MemorizationNote extends Plugin {
 					await memNote.createMemFile();
 				} catch (error) {
 					new Notice(error.message);
-					console.log(error.message)
+					console.error(error.message)
 				}
 			}
 		});

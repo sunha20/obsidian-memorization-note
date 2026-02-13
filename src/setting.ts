@@ -62,7 +62,6 @@ export class MemorizationNoteSettingTab extends PluginSettingTab {
 							this.plugin.settings.contentsOption = value;
 							await this.plugin.saveSettings();
 						}
-						console.log(value)
 					})
 			})
 
