@@ -29,8 +29,8 @@ export class MemorizationNoteSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		new Setting(containerEl)
-			.setName('Heading Option')
-			.setDesc("Basic: Option that copies the normal headings from the original note.\nLink: Option that adds a link to the original note's corresponding heading to the normal heading.")
+			.setName('Heading option')
+			.setDesc("Basic: option that copies the normal headings from the original note.\nLink: option that adds a link to the original note's corresponding heading to the normal heading.")
 			.addDropdown((component) => {
 				component
 					.addOptions({
@@ -47,8 +47,8 @@ export class MemorizationNoteSettingTab extends PluginSettingTab {
 			})
 
 		new Setting(containerEl)
-			.setName('Contents Option')
-			.setDesc("Empty: Option that does not copy anything except the heading.\nBlank: Option that blanks the marked areas.\nCopy: Duplicate option")
+			.setName('Contents option')
+			.setDesc("Empty: option that does not copy anything except the heading.\nBlank: option that blanks the marked areas.\nCopy: duplicate option")
 			.addDropdown((component) => {
 				component
 					.addOptions({
@@ -68,7 +68,7 @@ export class MemorizationNoteSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName("Blank start mark")
-			.setDesc("Default: { / Not allowing start and end marks to be the same")
+			.setDesc("Default: { \n not allowing start and end marks to be the same")
 			.addText((component) => {
 					component
 						.setValue(this.plugin.settings.blankStart)
@@ -81,7 +81,7 @@ export class MemorizationNoteSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName("Blank end mark")
-			.setDesc("Default: } / Not allowing start and end marks to be the same")
+			.setDesc("Default: } \n not allowing start and end marks to be the same")
 			.addText((component) => {
 					component
 						.setValue(this.plugin.settings.blankEnd)
