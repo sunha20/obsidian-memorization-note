@@ -20,7 +20,7 @@ export class MemFileGenerator {
 		this.blankReg = this.getContentReg(blankMark);
 	}
 
-	createMemFile() {
+	async createMemFile() {
 		let memContents = "";
 		const memPath = this.setMemPath()
 
@@ -42,7 +42,7 @@ export class MemFileGenerator {
 			if (this.hOption == "link") memContents = this.setHeadingToLink(memContents);
 		}
 
-		this.obsidian.openFile(memPath, memContents);
+		await this.obsidian.openFile(memPath, memContents);
 		return;
 	}
 
